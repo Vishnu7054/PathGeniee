@@ -71,7 +71,7 @@ export default function StudentForm({ onSubmit }: Props) {
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Sparkles className="w-8 h-8 text-primary-foreground" />
-            <h1 className="text-4xl md:text-5xl font-heading font-bold text-primary-foreground">CareerCompass AI</h1>
+            <h1 className="text-4xl md:text-5xl font-heading font-bold text-primary-foreground"><h1 className="text-4xl md:text-5xl font-heading font-bold text-primary-foreground">PathGenie</h1></h1>
           </div>
           <p className="text-lg text-primary-foreground/80 max-w-xl mx-auto">
             AI-powered career guidance to find your perfect course and career path
