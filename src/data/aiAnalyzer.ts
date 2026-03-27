@@ -1,4 +1,5 @@
 import { StudentFormData, CourseRecommendation, CourseDetail } from "@/types/career";
+import { AptitudeResult } from "@/types/aptitude";
 
 const courseDatabase: Record<string, { base: Partial<CourseRecommendation>; detail: CourseDetail }> = {
   "btech-cse-ai": {
