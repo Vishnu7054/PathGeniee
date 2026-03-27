@@ -1,4 +1,5 @@
 import { StudentFormData, CourseRecommendation, CourseDetail } from "@/types/career";
+import { AptitudeResult } from "@/types/aptitude";
 
 const courseDatabase: Record<string, { base: Partial<CourseRecommendation>; detail: CourseDetail }> = {
   "btech-cse-ai": {
@@ -381,12 +382,34 @@ function generateMatchReason(formData: StudentFormData, courseId: string): strin
   return reasons[courseId] || "This course aligns well with your profile and career aspirations.";
 }
 
-export function analyzeStudent(formData: StudentFormData): CourseRecommendation[] {
+export function analyzeStudent(formData: StudentFormData, aptitude?: AptitudeResult): CourseRecommendation[] {
   const allCourseIds = Object.keys(courseDatabase);
 
   const recommendations = allCourseIds.map(id => {
     const course = courseDatabase[id];
-    const score = computeSuitability(formData, id);
+    let score = computeSuitability(formData, id);
+
+    // Boost score based on aptitude results
+    if (aptitude) {
+      const aptPct = aptitude.totalScore / aptitude.totalQuestions;
+      score += Math.round(aptPct * 10); // up to +10
+
+      const logical = aptitude.categoryScores["Logical Reasoning"];
+      const quant = aptitude.categoryScores["Quantitative Aptitude"];
+      const verbal = aptitude.categoryScores["Verbal Ability"];
+      const tech = aptitude.categoryScores["Science/Technical Thinking"];
+      const creative = aptitude.categoryScores["Creativity & Problem Solving"];
+
+      if ((id.includes("btech") || id === "bsc-data-science") && logical && logical.correct === logical.total) score += 5;
+      if ((id.includes("btech") || id === "bsc-data-science") && quant && quant.correct === quant.total) score += 5;
+      if ((id === "bba" || id === "llb") && verbal && verbal.correct === verbal.total) score += 5;
+      if (id.includes("btech") && tech && tech.correct === tech.total) score += 5;
+      if (id === "mbbs" && tech && tech.correct === tech.total) score += 5;
+      if (creative && creative.correct === creative.total) score += 3;
+    }
+
+    score = Math.min(98, Math.max(40, score));
+
     return {
       id,
       name: course.base.name!,
