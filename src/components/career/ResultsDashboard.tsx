@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import { CourseRecommendation } from "@/types/career";
-import { Sparkles, Clock, BarChart3, Zap, ArrowRight, ArrowLeft } from "lucide-react";
+import { Sparkles, Clock, BarChart3, Zap, ArrowRight, ArrowLeft, Scale } from "lucide-react";
 
 interface Props {
   recommendations: CourseRecommendation[];
   onSelectCourse: (courseId: string) => void;
   onBack: () => void;
+  onCompare?: () => void;
 }
 
 const demandColors: Record<string, string> = {
